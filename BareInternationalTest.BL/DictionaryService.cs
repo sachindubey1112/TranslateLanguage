@@ -18,7 +18,17 @@ namespace BareInternationalTest.BL
 
         public TranslateModelViewModel ConvertLanguage(Translate request)
         {
-            TranslateModelViewModel model = dictionaryRepository.ConvertLanguage(request);
+            TranslateModelViewModel model=new TranslateModelViewModel();
+            try
+            {
+                model = dictionaryRepository.ConvertLanguage(request);
+            }
+            catch(Exception ex)
+            {
+                model.translateModel.status = "error";
+                model.translateModel.errorMsg = ex.Message;
+            }
+            
             return model;
         }
     }

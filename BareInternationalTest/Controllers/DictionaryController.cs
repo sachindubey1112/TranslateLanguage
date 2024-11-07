@@ -23,7 +23,18 @@ namespace BareInternationalTest.Controllers
         [HttpPost]
         public IActionResult ConvertLanguage([FromBody] Translate ts)
         {
-            return Json(dictionaryService.ConvertLanguage(ts));
+            try
+            {
+                var result = dictionaryService.ConvertLanguage(ts);
+                return Json(result);
+            }
+            catch(Exception ex)
+            {
+                TranslateModelViewModel response = new TranslateModelViewModel();
+                response.translateModel.status = "error";
+                response.translateModel.errorMsg = ex.Message;
+                return Json(response);
+            }
             //return Json(ts);
         }
     }

@@ -23,42 +23,50 @@ namespace BareInternationalTest.DL
         {
 
             string procedure_name = "sp_TranslateFromEnglishToHungarian";
-            TranslateModelViewModel response=new TranslateModelViewModel();
-            using (IDbConnection conn = _connection.CreateConnection())
+            TranslateModelViewModel response = new TranslateModelViewModel();
+            try
             {
-                using (var multi = conn.QueryMultiple(procedure_name, new
+                using (IDbConnection conn = _connection.CreateConnection())
                 {
-                    requestData = request.requestText
-                }, commandType: CommandType.StoredProcedure))
-                {
-                    // Read the first result set (Translate data)
-                    response.translate = multi.Read<Translate>().SingleOrDefault();
+                    using (var multi = conn.QueryMultiple(procedure_name, new
+                    {
+                        requestData = request.requestText
+                    }, commandType: CommandType.StoredProcedure))
+                    {
+                        // Read the first result set (Translate data)
+                        response.translate = multi.Read<Translate>().SingleOrDefault();
 
-                    // Check if the first result set is null or empty
-                    if (response.translate == null)
+                        // Check if the first result set is null or empty
+                        if (response.translate == null)
+                        {
+                            response.translateModel = new TranslateModel
+                            {
+                                status = "error",
+                                errorMsg = "No translation found"
+                            };
+                        }
+                        else
+                        {
+                            // Read the second result set (TranslateModel data)
+                            response.translateModel = multi.Read<TranslateModel>().SingleOrDefault();
+                        }
+                    }
+
+                    // If the second result set (TranslateModel) is null, set default values
+                    if (response.translateModel == null)
                     {
                         response.translateModel = new TranslateModel
                         {
                             status = "error",
-                            errorMsg = "No translation found"
+                            errorMsg = "Error in fetching status"
                         };
-                    }
-                    else
-                    {
-                        // Read the second result set (TranslateModel data)
-                        response.translateModel = multi.Read<TranslateModel>().SingleOrDefault();
                     }
                 }
 
-                // If the second result set (TranslateModel) is null, set default values
-                if (response.translateModel == null)
-                {
-                    response.translateModel = new TranslateModel
-                    {
-                        status = "error",
-                        errorMsg = "Error in fetching status"
-                    };
-                }
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
 
             return response;
