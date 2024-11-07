@@ -21,19 +21,47 @@ namespace BareInternationalTest.DL
 
         public TranslateModelViewModel ConvertLanguage(Translate request)
         {
+
             string procedure_name = "sp_TranslateFromEnglishToHungarian";
-            TranslateModelViewModel responseText = null;
+            TranslateModelViewModel response=new TranslateModelViewModel();
             using (IDbConnection conn = _connection.CreateConnection())
             {
-                var multi = conn.QueryMultiple(procedure_name, new
+                using (var multi = conn.QueryMultiple(procedure_name, new
                 {
                     requestData = request.requestText
-                }, commandType: CommandType.StoredProcedure);
-                responseText.translate = multi.Read<Translate>().SingleOrDefault();
-                responseText.translateModel = multi.Read<TranslateModel>().SingleOrDefault();
-                /*response.responseStatus = multi.Read<ResponseStatusModel>().SingleOrDefault();*/
+                }, commandType: CommandType.StoredProcedure))
+                {
+                    // Read the first result set (Translate data)
+                    response.translate = multi.Read<Translate>().SingleOrDefault();
+
+                    // Check if the first result set is null or empty
+                    if (response.translate == null)
+                    {
+                        response.translateModel = new TranslateModel
+                        {
+                            status = "error",
+                            errorMsg = "No translation found"
+                        };
+                    }
+                    else
+                    {
+                        // Read the second result set (TranslateModel data)
+                        response.translateModel = multi.Read<TranslateModel>().SingleOrDefault();
+                    }
+                }
+
+                // If the second result set (TranslateModel) is null, set default values
+                if (response.translateModel == null)
+                {
+                    response.translateModel = new TranslateModel
+                    {
+                        status = "error",
+                        errorMsg = "Error in fetching status"
+                    };
+                }
             }
-            return responseText;
+
+            return response;
         }
 
     }

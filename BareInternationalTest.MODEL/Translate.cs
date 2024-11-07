@@ -9,7 +9,7 @@ namespace BareInternationalTest.MODEL
     public class Translate
     {
         public string requestText { get; set; }
-        public string responseText { get; set; }
+        public string responseText { get; set; } 
 
     }
 
