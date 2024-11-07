@@ -7,6 +7,7 @@
     var data = {
         requestText: requestText1 // or any other form data
     };
+    $("#searchbtn").addClass("disabled");
     fetch('api/v1/Converter', {
         method: 'POST', // HTTP method
         headers: {
@@ -16,12 +17,19 @@
     })
         .then(response => response.json())  // Parse the JSON response
         .then(data => {
-            console.log('Success:', data);
+            if (data.translateModel.status == "success" && data.translateModel.errorMsg == "" && data.translate != null) {
+                console.log('Success:', data);
+            }
+            else if (data.translateModel.status == "error" && data.translateModel.errorMsg != "") {
+                alert(data.translateModel.errorMsg);
+            }
+            $("#searchbtn").removeClass("disabled");
             // Handle the response data
         })
         .catch(error => {
             console.error('Error:', error);
+            $("#searchbtn").removeClass("disabled");
             // Handle errors
         });
-    alert("hello " + requestText);
+    //alert("hello " + requestText);
 }

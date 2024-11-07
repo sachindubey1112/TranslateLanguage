@@ -1,7 +1,19 @@
 ﻿body {
     /*background-color: #f5f5f5;*/
-    background-color: #5c142c;
+    background-color: #ADD8E6;
 }
+
+
+
+input[type="search"]:focus {
+    background-color: #e0f7fa; /* Light blue background */
+    border-color: #00bcd4; /* Change border to a cyan color */
+    outline: none; /* Remove default focus outline */
+    transform: scale(1.01); /* Slightly scale the input field */
+    transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+
 
 .bareinternational-logo {
     width:30%; /* Adjust this as needed */
