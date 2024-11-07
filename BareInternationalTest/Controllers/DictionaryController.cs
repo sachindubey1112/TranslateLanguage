@@ -1,6 +1,7 @@
 ﻿using BareInternationalTest.BL;
 using BareInternationalTest.MODEL;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 
 namespace BareInternationalTest.Controllers
 {
@@ -8,7 +9,8 @@ namespace BareInternationalTest.Controllers
     {
 
         private readonly DictionaryService dictionaryService;
-        
+        private static readonly Logger Logger = LogManager.GetLogger("mycustomLog");
+
         public DictionaryController(DictionaryService dictionaryService) 
         {
             this.dictionaryService = dictionaryService;
@@ -23,14 +25,17 @@ namespace BareInternationalTest.Controllers
         [HttpPost]
         public IActionResult ConvertLanguage([FromBody] Translate ts)
         {
+            TranslateModelViewModel response = new TranslateModelViewModel();
             try
             {
-                var result = dictionaryService.ConvertLanguage(ts);
-                return Json(result);
+                response = dictionaryService.ConvertLanguage(ts);
+                Logger.Info("This is an info log for request {0} and response {1}",response?.translate?.requestText??string.Empty,response?.translate?.responseText??string.Empty);
+                return Json(response);
             }
             catch(Exception ex)
             {
-                TranslateModelViewModel response = new TranslateModelViewModel();
+                Logger.Error(ex, "This is an error log for {0}", ex.Message);
+                response.translateModel = new TranslateModel();
                 response.translateModel.status = "error";
                 response.translateModel.errorMsg = ex.Message;
                 return Json(response);

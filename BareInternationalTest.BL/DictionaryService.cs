@@ -25,6 +25,7 @@ namespace BareInternationalTest.BL
             }
             catch(Exception ex)
             {
+                model.translateModel = new TranslateModel();
                 model.translateModel.status = "error";
                 model.translateModel.errorMsg = ex.Message;
             }

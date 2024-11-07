@@ -1,5 +1,6 @@
 using BareInternationalTest.BL;
 using BareInternationalTest.DL;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,11 @@ builder.Services.AddScoped<DictionaryRepository>();
 // Register services
 builder.Services.AddScoped<DictionaryService>();
 
+
+//for logging
+/*builder.Logging.ClearProviders();  // Remove the default providers
+builder.Logging.SetMinimumLevel(LogLevel.Trace);  // Optional: Set the minimum logging level*/
+builder.Host.UseNLog();  // Integrates NLog with the ASP.NET Core pipeline
 
 
 var app = builder.Build();
