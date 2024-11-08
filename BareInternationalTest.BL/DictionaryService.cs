@@ -28,6 +28,7 @@ namespace BareInternationalTest.BL
                 model.translateModel = new TranslateModel();
                 model.translateModel.status = "error";
                 model.translateModel.errorMsg = ex.Message;
+                model.translateModel.statusCode = 0;
             }
             
             return model;

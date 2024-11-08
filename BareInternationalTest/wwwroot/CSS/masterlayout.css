@@ -32,3 +32,16 @@ input[type="search"]:focus {
         width: 60%;
     }
 }
+
+
+.sweet-alert h2 {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    color: #333;
+}
+
+.sweet-alert p {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+}

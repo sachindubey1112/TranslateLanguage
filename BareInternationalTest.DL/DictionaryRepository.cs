@@ -42,7 +42,8 @@ namespace BareInternationalTest.DL
                             response.translateModel = new TranslateModel
                             {
                                 status = "error",
-                                errorMsg = "No translation found"
+                                errorMsg = "No translation found",
+                                statusCode=2
                             };
                         }
                         else
@@ -58,7 +59,8 @@ namespace BareInternationalTest.DL
                         response.translateModel = new TranslateModel
                         {
                             status = "error",
-                            errorMsg = "Error in fetching status"
+                            errorMsg = "Error in fetching status",
+                            statusCode=3
                         };
                     }
                 }

@@ -17,6 +17,7 @@ namespace BareInternationalTest.MODEL
     {
         public string status { get; set; }
         public string errorMsg { get; set; }
+        public int statusCode {  get; set; }
         
     }
 

@@ -38,6 +38,7 @@ namespace BareInternationalTest.Controllers
                 response.translateModel = new TranslateModel();
                 response.translateModel.status = "error";
                 response.translateModel.errorMsg = ex.Message;
+                response.translateModel.statusCode= 500;
                 return Json(response);
             }
             //return Json(ts);
