@@ -1,0 +1,2 @@
+2024-11-08 17:40:37.6019 Error This is an error log for The method or operation is not implemented. System.NotImplementedException: The method or operation is not implemented.
+   at BareInternationalTest.Controllers.DictionaryController.ConvertLanguage(Translate ts) in E:\gitu\BareInternationalTest\Controllers\DictionaryController.cs:line 31
