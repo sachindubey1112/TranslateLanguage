@@ -10,7 +10,7 @@ namespace BareInternationalTest.BL
 {
     public class DictionaryService
     {
-        private readonly DictionaryRepository dictionaryRepository;
+        private readonly DictionaryRepository dictionaryRepository;        
         public DictionaryService(DictionaryRepository dictionaryRepository)
         {
             this.dictionaryRepository = dictionaryRepository;
@@ -25,10 +25,7 @@ namespace BareInternationalTest.BL
             }
             catch(Exception ex)
             {
-                model.translateModel = new TranslateModel();
-                model.translateModel.status = "error";
-                model.translateModel.errorMsg = ex.Message;
-                model.translateModel.statusCode = 0;
+                throw;
             }
             
             return model;
