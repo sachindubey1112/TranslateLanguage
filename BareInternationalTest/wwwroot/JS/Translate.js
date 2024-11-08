@@ -1,7 +1,12 @@
 ﻿function searchTranslate() {
     var requestText1 = $("#requestText").val().trim();
     if (requestText1 == "") {
-        alert("please type in search box");
+        //alert("please type in search box");
+        swal({
+            title: "Input Validation",
+            text: "please type in search box",
+            confirmButtonText: 'OK'
+        });
         return;
     }
     var data = {
